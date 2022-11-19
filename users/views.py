@@ -1,5 +1,3 @@
-from urllib import request
-
 from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateDestroyAPIView, )
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import viewsets, generics, status
@@ -44,5 +42,6 @@ class UserProfileDetailView(RetrieveUpdateDestroyAPIView):
 
 
 class UsersViewSet(viewsets.ModelViewSet):
-    serializer_class = UsersProfileSerializer
     queryset = CustomUser.objects.all()
+    serializer_class = UsersProfileSerializer
+

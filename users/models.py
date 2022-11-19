@@ -1,7 +1,13 @@
+from email import message
+
+from django.core.mail import send_mail
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from django.db import models
+
 from phone_field import PhoneField
 
 
@@ -38,8 +44,8 @@ class CustomUser(AbstractUser):
 
     objects = MyUserManager()
 
-    def str(self):
-        return self.email
+    def __str__(self):
+        return f'{self.email}'
 
 
 class UserProfile(models.Model):
@@ -49,5 +55,18 @@ class UserProfile(models.Model):
     first_name = models.CharField(max_length=150, blank=True, null=True)
     last_name = models.CharField(max_length=150, blank=True, null=True)
 
-    def str(self):
-        return self.user
+    def __str__(self):
+        return f'{self.user}'
+
+
+@receiver(post_save, sender=CustomUser)
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        print('send email')
+        send_mail('Contact Form',
+                  'Такой код вам отправлю пока что',
+                  settings.EMAIL_HOST_USER,
+                  [f'{instance.email}'],
+                  fail_silently=False)
+
+        UserProfile.objects.create(user=instance)
