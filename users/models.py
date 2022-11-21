@@ -1,46 +1,48 @@
-from email import message
-
-from django.core.mail import send_mail
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+from django.core.mail import send_mail
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from phone_field import PhoneField
 
 
 class MyUserManager(BaseUserManager):
-    def _create_user(self, email, username, password, **extra_fields):
+    def _create_user(self, email, username, password, phone, **extra_fields):
         if not email:
             raise ValueError("Вы не ввели Email")
         if not username:
             raise ValueError("Вы не ввели Логин")
+        if not phone:
+            raise ValueError("Вы не ввели Телефон")
         user = self.model(
             email=self.normalize_email(email),
             username=username,
-            **extra_fields,
+            phone=phone,
+                  ** extra_fields,
         )
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_user(self, email, username, password):
-        return self._create_user(email, username, password)
+    def create_user(self, email, username, password, phone):
+        return self._create_user(email, username, password, phone)
 
-    def create_superuser(self, email, username, password):
-        return self._create_user(email, username, password, is_staff=True, is_superuser=True)
+    def create_superuser(self, email, username, password, phone):
+        return self._create_user(email, username, password, phone, is_staff=True, is_superuser=True)
 
 
 class CustomUser(AbstractUser):
-    phone = PhoneField(unique=True, null=False)
+    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    phone = PhoneField(unique=True, blank=False, null=False)
     email = models.EmailField(max_length=100, unique=True)
     is_active = models.BooleanField(default=True)  # Статус активации
     is_staff = models.BooleanField(default=False)  # Статус админа
 
     USERNAME_FIELD = 'email'  # Идентификатор для обращения
-    REQUIRED_FIELDS = ['username']  # Список имён полей для Superuser
+    REQUIRED_FIELDS = ['username', 'phone']  # Список имён полей для Superuser
 
     objects = MyUserManager()
 
@@ -62,9 +64,8 @@ class UserProfile(models.Model):
 @receiver(post_save, sender=CustomUser)
 def create_profile(sender, instance, created, **kwargs):
     if created:
-        print('send email')
-        send_mail('Contact Form',
-                  'Такой код вам отправлю пока что',
+        send_mail('Complete your email',
+                  'http://127.0.0.1:8000/auth/verify/uuid/<int:pk>/ ',
                   settings.EMAIL_HOST_USER,
                   [f'{instance.email}'],
                   fail_silently=False)

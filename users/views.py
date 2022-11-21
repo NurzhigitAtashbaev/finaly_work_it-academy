@@ -5,7 +5,10 @@ from rest_framework.response import Response
 
 from .models import CustomUser
 from .permissions import IsOwnerProfileOrReadOnly
-from .serializers import UsersProfileSerializer, UserRegisterSerializer
+from .serializers import (UsersProfileSerializer,
+                          UserRegisterSerializer,
+                          UserVerifySerializer,
+                          )
 
 
 class RegisterUserView(generics.CreateAPIView):
@@ -45,3 +48,7 @@ class UsersViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
     serializer_class = UsersProfileSerializer
 
+
+class UserVerifyViewSet(generics.UpdateAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserVerifySerializer

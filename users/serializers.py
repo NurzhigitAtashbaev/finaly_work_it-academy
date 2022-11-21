@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from .models import CustomUser
 
 
@@ -30,3 +31,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+
+
+class UserVerifySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ('is_active',)
