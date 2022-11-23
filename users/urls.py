@@ -6,7 +6,7 @@ from .views import (
     UserProfileListCreateView,
     UserProfileDetailView,
     UsersViewSet,
-    UserVerifyViewSet,
+    EmailVerify,
     RegisterUserView,
 )
 
@@ -18,6 +18,6 @@ urlpatterns = [
     path("profile/<int:pk>", UserProfileDetailView.as_view(), name="profile"),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('verify/uuid/<int:pk>/', UserVerifyViewSet.as_view(), name='verify-user'),
+    path('emailVerification/', EmailVerify.as_view(), name='emailActivate'),
     path('reg/', RegisterUserView.as_view()),
 ]

@@ -1,3 +1,4 @@
+from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
 from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateDestroyAPIView, )
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import viewsets, generics, status
@@ -49,6 +50,6 @@ class UsersViewSet(viewsets.ModelViewSet):
     serializer_class = UsersProfileSerializer
 
 
-class UserVerifyViewSet(generics.UpdateAPIView):
+class EmailVerify(generics.UpdateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserVerifySerializer

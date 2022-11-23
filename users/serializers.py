@@ -36,4 +36,4 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 class UserVerifySerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('is_active',)
+        fields = ('email', 'email_verify',)

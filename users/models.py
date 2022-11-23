@@ -5,6 +5,7 @@ from django.core.mail import send_mail
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from uuid import uuid4
 
 from phone_field import PhoneField
 
@@ -21,7 +22,7 @@ class MyUserManager(BaseUserManager):
             email=self.normalize_email(email),
             username=username,
             phone=phone,
-                  ** extra_fields,
+            **extra_fields,
         )
         user.set_password(password)
         user.save(using=self._db)
@@ -35,11 +36,11 @@ class MyUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractUser):
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     phone = PhoneField(unique=True, blank=False, null=False)
     email = models.EmailField(max_length=100, unique=True)
     is_active = models.BooleanField(default=True)  # Статус активации
-    is_staff = models.BooleanField(default=False)  # Статус админа
+    is_staff = models.BooleanField(default=True)  # Статус админа
+    email_verify = models.UUIDField(default=uuid4())
 
     USERNAME_FIELD = 'email'  # Идентификатор для обращения
     REQUIRED_FIELDS = ['username', 'phone']  # Список имён полей для Superuser
@@ -47,9 +48,10 @@ class CustomUser(AbstractUser):
     objects = MyUserManager()
 
     def __str__(self):
-        return f'{self.email}'
+        return f'{self.email_verify}'
 
 
+# Профиль пользователя
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, primary_key=True, on_delete=models.CASCADE,
                                 related_name='user')
@@ -64,8 +66,12 @@ class UserProfile(models.Model):
 @receiver(post_save, sender=CustomUser)
 def create_profile(sender, instance, created, **kwargs):
     if created:
-        send_mail('Complete your email',
-                  'http://127.0.0.1:8000/auth/verify/uuid/<int:pk>/ ',
+        host = 'http://127.0.0.1:8000/auth/emailVerification/'
+        use1 = instance.email
+        use2 = instance.email_verify
+        send_mail('Contact Form',
+                  f'{host}'
+                  f'{use1}, {use2}',
                   settings.EMAIL_HOST_USER,
                   [f'{instance.email}'],
                   fail_silently=False)
