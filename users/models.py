@@ -5,6 +5,7 @@ from django.core.mail import send_mail
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django_rest_passwordreset.signals import reset_password_token_created
 from uuid import uuid4
 
 from phone_field import PhoneField
@@ -38,8 +39,9 @@ class MyUserManager(BaseUserManager):
 class CustomUser(AbstractUser):
     phone = PhoneField(unique=True, blank=False, null=False)
     email = models.EmailField(max_length=100, unique=True)
-    is_active = models.BooleanField(default=True)  # Статус активации
-    is_staff = models.BooleanField(default=True)  # Статус админа
+    # hapy_birthday = models.
+    is_active = models.BooleanField(default=False)  # Статус активации
+    is_staff = models.BooleanField(default=False)  # Статус админа
     email_verify = models.UUIDField(default=uuid4())
 
     USERNAME_FIELD = 'email'  # Идентификатор для обращения
@@ -48,7 +50,11 @@ class CustomUser(AbstractUser):
     objects = MyUserManager()
 
     def __str__(self):
-        return f'{self.email_verify}'
+        return f'{self.username, self.email_verify}'
+
+    def email_verificate(self):
+        self.is_active = True
+        self.save(update_fields=['is_active'])
 
 
 # Профиль пользователя
@@ -66,14 +72,28 @@ class UserProfile(models.Model):
 @receiver(post_save, sender=CustomUser)
 def create_profile(sender, instance, created, **kwargs):
     if created:
-        host = 'http://127.0.0.1:8000/auth/emailVerification/'
-        use1 = instance.email
-        use2 = instance.email_verify
+        host = 'http://127.0.0.1:8000/auth/email/verification/'
+        uuid = instance.email_verify
         send_mail('Contact Form',
-                  f'{host}'
-                  f'{use1}, {use2}',
+                  f'http://127.0.0.1:8000/auth/email/verification/{uuid}',
                   settings.EMAIL_HOST_USER,
                   [f'{instance.email}'],
                   fail_silently=False)
 
         UserProfile.objects.create(user=instance)
+
+
+@receiver(reset_password_token_created)
+def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
+    email_plaintext_message = reset_password_token.key
+
+    send_mail(
+        "Восстановление пароля",
+        f'''
+        Ваш токен для восстановления пароля
+        Токен: {email_plaintext_message}. 
+        Перейдите по ссылке, введите ваш токен и новый пароль
+        http://127.0.0.1:8000/auth/password_reset/confirm/''',
+        "atashbaevnurjigit@gmail.com",
+        [reset_password_token.user.email]
+    )

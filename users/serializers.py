@@ -33,7 +33,21 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return user
 
 
-class UserVerifySerializer(serializers.ModelSerializer):
+class VerifySerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ('email', 'email_verify',)
+
+
+from rest_framework import serializers
+from django.contrib.auth.models import User
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    model = User
+
+    """
+    Serializer for password change endpoint.
+    """
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
