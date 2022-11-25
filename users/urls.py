@@ -6,8 +6,8 @@ from .views import (
     UserProfileListCreateView,
     UserProfileDetailView,
     UsersViewSet,
-    EmailVerify,
-    RegisterUserView,
+    EmailVerifyAPIView,
+    RegisterUserView, ChangePasswordView,
 )
 
 router = DefaultRouter()
@@ -18,6 +18,8 @@ urlpatterns = [
     path("profile/<int:pk>", UserProfileDetailView.as_view(), name="profile"),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('emailVerification/', EmailVerify.as_view(), name='emailActivate'),
+    path('email/verification/<uuid:email_verify>', EmailVerifyAPIView.as_view(), name='emailActivate'),
+    path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
+    path('change_password/', ChangePasswordView.as_view(), name='change-password'),
     path('reg/', RegisterUserView.as_view()),
 ]
