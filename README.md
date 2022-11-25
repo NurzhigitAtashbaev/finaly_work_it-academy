@@ -1,1 +1,1 @@
-It-Academy-Nurzhigit-Project
+It-Academy-Nurzhigit
