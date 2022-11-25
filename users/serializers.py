@@ -22,7 +22,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             email=self.validated_data['email'],
             username=self.validated_data['username'],
             phone=self.validated_data['phone'],
-
         )
         password = self.validated_data['password']
         password2 = self.validated_data['password2']
@@ -39,12 +38,8 @@ class VerifySerializer(serializers.ModelSerializer):
         fields = ('email', 'email_verify',)
 
 
-from rest_framework import serializers
-from django.contrib.auth.models import User
-
-
 class ChangePasswordSerializer(serializers.Serializer):
-    model = User
+    model = CustomUser
 
     """
     Serializer for password change endpoint.

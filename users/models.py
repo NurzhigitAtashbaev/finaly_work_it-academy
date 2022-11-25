@@ -8,7 +8,7 @@ from django.dispatch import receiver
 from django_rest_passwordreset.signals import reset_password_token_created
 from uuid import uuid4
 
-from phone_field import PhoneField
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class MyUserManager(BaseUserManager):
@@ -36,10 +36,13 @@ class MyUserManager(BaseUserManager):
         return self._create_user(email, username, password, phone, is_staff=True, is_superuser=True)
 
 
+'''User Model'''
+
+
 class CustomUser(AbstractUser):
-    phone = PhoneField(unique=True, blank=False, null=False)
     email = models.EmailField(max_length=100, unique=True)
-    # hapy_birthday = models.
+    phone = PhoneNumberField(null=True, region='KG', unique=True, )
+    birth_date = models.DateField('Дата Рождения', blank=False, null=True, default='2000-01-12')
     is_active = models.BooleanField(default=False)  # Статус активации
     is_staff = models.BooleanField(default=False)  # Статус админа
     email_verify = models.UUIDField(default=uuid4())
@@ -57,16 +60,24 @@ class CustomUser(AbstractUser):
         self.save(update_fields=['is_active'])
 
 
-# Профиль пользователя
+'''User Profile Model'''
+
+
 class UserProfile(models.Model):
+    image = models.ImageField(blank=False, null=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, primary_key=True, on_delete=models.CASCADE,
                                 related_name='user')
     age = models.IntegerField(null=True)
+    birth_date = models.DateField('Дата Рождения', blank=False, null=True, default='2000-01-12')
     first_name = models.CharField(max_length=150, blank=True, null=True)
     last_name = models.CharField(max_length=150, blank=True, null=True)
+    phone_number = PhoneNumberField(null=True, region='KG', unique=True, )
 
     def __str__(self):
         return f'{self.user}'
+
+
+'''Creating user+profile signals'''
 
 
 @receiver(post_save, sender=CustomUser)
@@ -81,6 +92,9 @@ def create_profile(sender, instance, created, **kwargs):
                   fail_silently=False)
 
         UserProfile.objects.create(user=instance)
+
+
+'''Password reset signal'''
 
 
 @receiver(reset_password_token_created)

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -27,9 +28,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_rest_passwordreset',
     'users.apps.UsersConfig',
-    # phonenumber for models.py
-    'phone_field',
-
 
     # JWT authentication backend library
     'rest_framework_simplejwt',
@@ -136,8 +134,10 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
+# add model CustomUser
 AUTH_USER_MODEL = 'users.CustomUser'
 
+# send email seting
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False

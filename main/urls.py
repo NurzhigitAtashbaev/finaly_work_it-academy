@@ -22,6 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # path to user register end points
-    path('auth/', include('users.urls')),
+    path('users/', include('users.urls')),
     path('locations/', include('attractions.urls')),
 ]
