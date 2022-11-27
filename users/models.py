@@ -32,9 +32,19 @@ class MyUserManager(BaseUserManager):
     def create_user(self, email, username, password, phone):
         return self._create_user(email, username, password, phone)
 
-    def create_superuser(self, email, username, password, phone):
-        return self._create_user(email, username, password, phone, is_staff=True, is_superuser=True)
+    def create_superuser(self, username, password, **extra_fields):
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_active', True)
 
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError(' is_superuser=True.')
+
+        return self._create_user(
+            username=username,
+            password=password,
+            **extra_fields
+        )
 
 '''User Model'''
 
