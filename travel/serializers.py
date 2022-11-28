@@ -1,11 +1,5 @@
 from rest_framework import serializers
-from .models import Tour, Category, Types, Comment
-
-
-class CreateTourSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Tour
-        fields = "__all__"
+from .models import Tour, Category, Types, Comment, Entry
 
 
 class TourSerializer(serializers.ModelSerializer):
@@ -40,3 +34,16 @@ class TypesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Types
         fields = ('id', 'title', 'tours')
+
+
+class TourCrudSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Tour
+        fields = "__all__"
+
+
+class EntrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Entry
+        fields = "__all__"
