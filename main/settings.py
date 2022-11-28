@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'attractions.apps.AttractionsConfig',
     'travel.apps.TravelConfig',
+     'certificate.apps.CertificateConfig',
 
     # rest API implementation library for django
     'rest_framework',
@@ -47,7 +48,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
@@ -140,9 +140,8 @@ REST_FRAMEWORK = {
 AUTH_USER_MODEL = 'users.CustomUser'
 
 SIMPLE_JWT = {
-     # Use JWT
-     'AUTH_HEADER_TYPES': ('JWT',),
-     # 'AUTH_HEADER_TYPES': ('Bearer',),
+  
+      'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
 # send email settings
