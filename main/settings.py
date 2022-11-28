@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'attractions.apps.AttractionsConfig',
     'travel.apps.TravelConfig',
+     'certificate.apps.CertificateConfig',
 
     # rest API implementation library for django
     'rest_framework',
@@ -36,7 +37,7 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
 
 ]
-from decouple import config
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,10 +47,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
-# SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -133,9 +134,15 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+
 }
 # add model CustomUser
 AUTH_USER_MODEL = 'users.CustomUser'
+
+SIMPLE_JWT = {
+  
+      'AUTH_HEADER_TYPES': ('Bearer',),
+}
 
 # send email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
