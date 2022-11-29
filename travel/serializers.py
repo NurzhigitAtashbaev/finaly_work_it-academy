@@ -10,7 +10,7 @@ class TourSerializer(serializers.ModelSerializer):
         model = Tour
         fields = "__all__"
 
-        def get(self, request, format=None):
+        def get(self, request):
             serializer = TourSerializer(Tour.objects.all(), many=True)
 
 
@@ -37,7 +37,6 @@ class TypesSerializer(serializers.ModelSerializer):
 
 
 class TourCrudSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Tour
         fields = "__all__"
@@ -47,3 +46,24 @@ class EntrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Entry
         fields = "__all__"
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    user = serializers.CharField(source="user.username")
+    tour = serializers.CharField(source="tour.title")
+
+    class Meta:
+        model = Comment
+        fields = "__all__"
+
+        def get(self, request):
+            serializer = TourSerializer(Comment.objects.all(), many=True)
+            serializer.save()
+
+
+class DeleteCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ('id', 'user_id')
+
+

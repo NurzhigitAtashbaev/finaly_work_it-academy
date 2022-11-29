@@ -47,7 +47,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 
-DEBUG = True
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -139,8 +140,9 @@ REST_FRAMEWORK = {
 AUTH_USER_MODEL = 'users.CustomUser'
 
 SIMPLE_JWT = {
-
-    'AUTH_HEADER_TYPES': ('Bearer',),
+     # Use JWT
+     # 'AUTH_HEADER_TYPES': ('JWT',),
+     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
 # send email settings
