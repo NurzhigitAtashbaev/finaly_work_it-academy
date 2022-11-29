@@ -11,3 +11,5 @@ class Attractions(models.Model):
 
     def __str__(self):
         return self.title
+
+# test

@@ -1,6 +1,6 @@
-from django.urls import path, include
+from django.urls import path
 from .views import (TourListView, TourDetailView, CategoryDetailView, TypesDetailView,
-                    CreateTourViews, EntryTourViews)
+                    CreateTourViews, EntryTourViews, CreateCommentView, DeleteCommentView)
 
 urlpatterns = [
     path('all/', TourListView.as_view()),
@@ -10,5 +10,6 @@ urlpatterns = [
 
     path('create/', CreateTourViews.as_view()),
     path('entry/', EntryTourViews.as_view()),
-
+    path('comment/', CreateCommentView.as_view()),
+    path('delete_comment/<int:pk>/', DeleteCommentView.as_view()),
 ]
