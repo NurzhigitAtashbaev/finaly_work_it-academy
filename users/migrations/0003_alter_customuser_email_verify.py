@@ -15,10 +15,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='customuser',
             name='email_verify',
-<<<<<<< HEAD
             field=models.UUIDField(default=uuid.UUID('6ec10008-e27d-44e7-a035-0f3f8fe08cd7')),
-=======
-            field=models.UUIDField(default=uuid.UUID('c415c239-2e7b-4a68-aba9-3b7b98404612')),
->>>>>>> d71af058b35af49fc5fa803b88b86a7bd304307c
         ),
     ]

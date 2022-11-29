@@ -9,11 +9,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-<<<<<<< HEAD
         ('travel', '0002_alter_comment_image_alter_entry_date_buy'),
-=======
-        ('travel', '0001_initial'),
->>>>>>> d71af058b35af49fc5fa803b88b86a7bd304307c
     ]
 
     operations = [
