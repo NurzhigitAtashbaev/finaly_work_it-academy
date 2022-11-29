@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
 from pathlib import Path
 from decouple import config
 
@@ -24,12 +23,13 @@ INSTALLED_APPS = [
     'drf_yasg',
     'attractions.apps.AttractionsConfig',
     'travel.apps.TravelConfig',
-     'certificate.apps.CertificateConfig',
+    'users.apps.UsersConfig',
+    'certificate.apps.CertificateConfig',
+    'staff.apps.StaffConfig',
 
     # rest API implementation library for django
     'rest_framework',
     'django_rest_passwordreset',
-    'users.apps.UsersConfig',
 
     # JWT authentication backend library
     'rest_framework_simplejwt',
@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
 
 ]
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -140,8 +139,8 @@ REST_FRAMEWORK = {
 AUTH_USER_MODEL = 'users.CustomUser'
 
 SIMPLE_JWT = {
-  
-      'AUTH_HEADER_TYPES': ('Bearer',),
+
+    'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
 # send email settings
