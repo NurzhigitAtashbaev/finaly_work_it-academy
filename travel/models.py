@@ -50,19 +50,19 @@ class Tour(models.Model):
 class Entry(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     tour = models.ForeignKey(Tour, on_delete=models.PROTECT)
-    date_buy = models.DateField()
+    date_buy = models.DateField(auto_now_add=True)
 
 
 # Модель комментарий к туру
 class Comment(models.Model):
-    image = models.ImageField()
+    image = models.ImageField(null=True)
     text = models.TextField(max_length=400, verbose_name='Комментарий')
     user = models.ForeignKey(CustomUser, related_name="comments", verbose_name="Пользователь", default=1,
                              on_delete=models.SET_DEFAULT)
     tour = models.ForeignKey(Tour, on_delete=models.CASCADE, related_name="comments", verbose_name="Тур")
 
-    def __str__(self):
-        return f"{self.id}. {self.text}: {self.user.username}"
+    # def __str__(self):
+    #     return f"{self.id}. {self.text}: {self.user.username}"
 
     class Meta:
         db_table = "comments"

@@ -9,4 +9,3 @@ class Certificate(models.Model):
     price = models.IntegerField()
     sender = models.CharField(max_length=50)
     addressee = models.CharField(max_length=50)
-
