@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
 from pathlib import Path
 from decouple import config
 
@@ -24,12 +23,17 @@ INSTALLED_APPS = [
     'drf_yasg',
     'attractions.apps.AttractionsConfig',
     'travel.apps.TravelConfig',
+<<<<<<< HEAD
     'certificate.apps.CertificateConfig',
+=======
+    'users.apps.UsersConfig',
+    'certificate.apps.CertificateConfig',
+    'staff.apps.StaffConfig',
+>>>>>>> d71af058b35af49fc5fa803b88b86a7bd304307c
 
     # rest API implementation library for django
     'rest_framework',
     'django_rest_passwordreset',
-    'users.apps.UsersConfig',
 
     # JWT authentication backend library
     'rest_framework_simplejwt',
@@ -37,7 +41,6 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
 
 ]
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,8 +51,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 
+<<<<<<< HEAD
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG')
+=======
+DEBUG = True
+>>>>>>> d71af058b35af49fc5fa803b88b86a7bd304307c
 
 ALLOWED_HOSTS = ['*']
 
