@@ -1,8 +1,12 @@
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.generics import (ListAPIView, RetrieveAPIView, CreateAPIView,
                                      )
-from .serializers import TourSerializer, CategorySerializer, TypesSerializer, TourCrudSerializer, EntrySerializer
-from .models import Tour, Category, Types, Entry
+from .serializers import (TourSerializer,
+                          CategorySerializer,
+                          TypesSerializer,
+                          TourCrudSerializer,
+                          EntrySerializer)
+from .models import Tour, Category, Types, Entry, Comment
 
 
 # Для просмотра всех туров
@@ -39,8 +43,12 @@ class CreateTourViews(CreateAPIView):
     # permission_classes = [IsAdminUser]
 
 
-#запись на тур
+# запись на тур
 class EntryTourViews(CreateTourViews):
     queryset = Entry.objects.all()
     serializer_class = EntrySerializer
 
+
+class CommentListAPIView(ListAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = EntrySerializer
