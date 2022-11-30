@@ -1,3 +1,5 @@
+from django.contrib.auth.tokens import default_token_generator
+from rest_framework.decorators import action
 from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateDestroyAPIView, )
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import viewsets, generics, status
@@ -19,16 +21,53 @@ class RegisterUserView(generics.CreateAPIView):
     serializer_class = UserRegisterSerializer
     permission_classes = [AllowAny, ]
 
+    @action(detail=False, permission_classes=[AllowAny], methods=['get'])
+    def activate(self, request, pk=None):
+        user_id = request.query_params.get('user_id', '')
+        token = request.query_params.get('confirmation_token', '')
+        try:
+            user = self.get_queryset().get(pk=user_id)
+        except(TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
+            user = None
+        if user is None:
+            return Response('User not found', status=status.HTTP_400_BAD_REQUEST)
+        if not default_token_generator.check_token(user, token):
+            return Response('Token is invalid or expired. Please request another confirmation email by signing in.',
+                            status=status.HTTP_400_BAD_REQUEST)
+        user.is_active = True
+        user.save()
+        return Response('Email successfully confirmed')
+
+    # Создаём метод для создания нового пользователя
     def post(self, request, *args, **kwargs):
+        # Добавляем UserRegistrSerializer
         serializer = UserRegisterSerializer(data=request.data)
+        # Создаём список data
         data = {}
+        # Проверка данных на валидность
         if serializer.is_valid():
+            # Сохраняем нового пользователя
             serializer.save()
+            # Добавляем в список значение ответа True
             data['response'] = True
-            return Response(status=status.HTTP_200_OK)
-        else:
+            # Возвращаем что всё в порядке
+            return Response(data, status=status.HTTP_200_OK)
+        else:  # Иначе
+            # Присваиваем data ошибку
             data = serializer.errors
+            # Возвращаем ошибку
             return Response(data)
+
+    # def post(self, request, *args, **kwargs):
+    #     serializer = UserRegisterSerializer(data=request.data)
+    #     data = {}
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         data['response'] = True
+    #         return Response(status=status.HTTP_200_OK)
+    #     else:
+    #         data = serializer.errors
+    #         return Response(data)
 
 
 class UserProfileListCreateView(generics.ListAPIView):
