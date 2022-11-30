@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+from django.utils.timezone import timedelta
 from pathlib import Path
 from decouple import config
 
@@ -139,10 +140,14 @@ REST_FRAMEWORK = {
 # add model CustomUser
 AUTH_USER_MODEL = 'users.CustomUser'
 
+
 SIMPLE_JWT = {
-     # Use JWT
-     # 'AUTH_HEADER_TYPES': ('JWT',),
-     'AUTH_HEADER_TYPES': ('Bearer',),
+    # Use JWT
+    # 'AUTH_HEADER_TYPES': ('JWT',),
+
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
 # send email settings

@@ -2,9 +2,23 @@ from rest_framework import serializers
 from .models import Tour, Category, Types, Comment, Entry
 
 
+class CommentSerializer(serializers.ModelSerializer):
+    user = serializers.CharField(source="user.username")
+    tour = serializers.CharField(source="tour.title")
+
+    class Meta:
+        model = Comment
+        fields = ('id', 'text', 'image', 'user', 'tour')
+
+        # def get(self, request):
+        #     serializer = TourSerializer(Comment.objects.all(), many=True)
+        #     serializer.save()
+
+
 class TourSerializer(serializers.ModelSerializer):
     category = serializers.CharField(source="category.title")
     types = serializers.CharField(source="types.title")
+    comments = CommentSerializer(many=True)
 
     class Meta:
         model = Tour
@@ -48,22 +62,9 @@ class EntrySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class CommentSerializer(serializers.ModelSerializer):
-    user = serializers.CharField(source="user.username")
-    tour = serializers.CharField(source="tour.title")
-
-    class Meta:
-        model = Comment
-        fields = "__all__"
-
-        def get(self, request):
-            serializer = TourSerializer(Comment.objects.all(), many=True)
-            serializer.save()
-
-
 class DeleteCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ('id', 'user_id')
+        fields = ('id', 'user')
 
 

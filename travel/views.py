@@ -1,4 +1,6 @@
+from rest_framework import status
 from rest_framework.response import Response
+from .permissions import IsPostOrCommentOwner
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.generics import (ListAPIView, RetrieveAPIView, CreateAPIView, DestroyAPIView, ListCreateAPIView,
                                      get_object_or_404
@@ -51,25 +53,23 @@ class EntryTourViews(CreateTourViews):
 # комментарий к туру
 class CreateCommentView(ListCreateAPIView):
     queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = CommentSerializer
+
+    def put(self, request, pk=None):
+        user = request.user
+        data = request.data
+        data['user'] = user.email
+        data['tour'] = pk
+        serializer = self.get_serializer(data=data)
+        if not serializer.is_valid(True):
+            return Response(serializer.error, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        return Response("comment created!", status=status.HTTP_202_ACCEPTED)
 
 
+# удаление комментов
 class DeleteCommentView(DestroyAPIView):
     serializer_class = DeleteCommentSerializer
-    queryset = Comment.objects.get(id=1)
-    print(queryset)
-
-    def delete(self, request, *args, **kwargs):
-        tour = get_object_or_404(Tour, id=id)
-        creator = tour.user.username
-
-        if request.method == "DELETE" and request.user.is_authenticated and request.user.username == creator:
-            tour.delete()
-            return f"Комментарий удалён "
-
-
-
-
-
-
+    permission_classes = (IsPostOrCommentOwner, IsAuthenticatedOrReadOnly)
+    queryset = Comment.objects.all()

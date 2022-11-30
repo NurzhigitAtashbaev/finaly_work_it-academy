@@ -55,7 +55,7 @@ class Entry(models.Model):
 
 # Модель комментарий к туру
 class Comment(models.Model):
-    image = models.ImageField(null=True)
+    image = models.ImageField(blank=True, null=True)
     text = models.TextField(max_length=400, verbose_name='Комментарий')
     user = models.ForeignKey(CustomUser, related_name="comments", verbose_name="Пользователь", default=1,
                              on_delete=models.SET_DEFAULT)
