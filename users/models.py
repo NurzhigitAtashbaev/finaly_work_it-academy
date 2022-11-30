@@ -93,10 +93,9 @@ class UserProfile(models.Model):
 @receiver(post_save, sender=CustomUser)
 def create_profile(sender, instance, created, **kwargs):
     if created:
-        host = 'http://127.0.0.1:8000/auth/email/verification/'
         uuid = instance.email_verify
         send_mail('Contact Form',
-                  f'http://127.0.0.1:8000/auth/email/verification/{uuid}',
+                  f'http://127.0.0.1:8000/users/email/verification/{uuid}',
                   settings.EMAIL_HOST_USER,
                   [f'{instance.email}'],
                   fail_silently=False)
@@ -117,7 +116,7 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         Ваш токен для восстановления пароля
         Токен: {email_plaintext_message}. 
         Перейдите по ссылке, введите ваш токен и новый пароль
-        http://127.0.0.1:8000/auth/password_reset/confirm/''',
+        http://127.0.0.1:8000/users/password_reset/confirm/''',
         "atashbaevnurjigit@gmail.com",
         [reset_password_token.user.email]
     )
