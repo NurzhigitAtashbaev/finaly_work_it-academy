@@ -1,3 +1,4 @@
+from django.views.generic import WeekArchiveView
 from rest_framework import status
 from rest_framework.response import Response
 from .permissions import IsPostOrCommentOwner
@@ -73,3 +74,13 @@ class DeleteCommentView(DestroyAPIView):
     serializer_class = DeleteCommentSerializer
     permission_classes = (IsPostOrCommentOwner, IsAuthenticatedOrReadOnly)
     queryset = Comment.objects.all()
+
+
+class FindDataTourView(WeekArchiveView):
+    queryset = Tour.objects.all()
+    date_field = "start_day"
+    print(queryset)
+    week_format = "%W"
+    allow_future = True
+
+
