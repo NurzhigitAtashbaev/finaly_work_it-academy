@@ -1,7 +1,7 @@
 from django.contrib.auth.tokens import default_token_generator
 from rest_framework.decorators import action
 from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateDestroyAPIView, )
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework import viewsets, generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -36,7 +36,8 @@ class RegisterUserView(generics.CreateAPIView):
 class UserProfileListCreateView(generics.ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UsersProfileSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
 
     def perform_create(self, serializer):
         user = self.request.user
@@ -46,12 +47,13 @@ class UserProfileListCreateView(generics.ListAPIView):
 class UserProfileDetailView(RetrieveUpdateDestroyAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UsersProfileSerializer
-    permission_classes = [IsOwnerProfileOrReadOnly, IsAuthenticated]
+    permission_classes = [IsOwnerProfileOrReadOnly, IsAuthenticated, IsAdminUser]
 
 
 class UsersViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
     serializer_class = UsersProfileSerializer
+    permission_classes = [IsAdminUser]
 
 
 class EmailVerifyAPIView(generics.RetrieveAPIView):

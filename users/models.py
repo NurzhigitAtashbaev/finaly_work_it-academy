@@ -46,6 +46,7 @@ class MyUserManager(BaseUserManager):
             **extra_fields
         )
 
+
 '''User Model'''
 
 
