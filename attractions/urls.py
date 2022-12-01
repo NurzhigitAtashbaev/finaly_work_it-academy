@@ -4,10 +4,12 @@ from .views import (
         AttractionsCreateAPIView,
         AttractionsUpdateAPIView,
         AttractionsRetrieveAPIView,
+        AttractionsDestroyAPIView,
     )
 urlpatterns = [
     path('', AttractionsListAPIView.as_view()),
     path('create/', AttractionsCreateAPIView.as_view()),
     path('update/', AttractionsUpdateAPIView.as_view()),
-    path('delete/<int:pk>/', AttractionsRetrieveAPIView.as_view()),
+    path('detail/<int:pk>/', AttractionsRetrieveAPIView.as_view()),
+    path('delete/<int:pk>/', AttractionsDestroyAPIView.as_view()),
 ]

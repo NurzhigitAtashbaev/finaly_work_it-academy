@@ -1,4 +1,5 @@
 from django.contrib import admin
-from .models import Staff
+from .models import AboutStaff, Contacts
 
-admin.site.register(Staff)
+admin.site.register(AboutStaff)
+admin.site.register(Contacts)
