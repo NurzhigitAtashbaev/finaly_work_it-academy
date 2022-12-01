@@ -1,9 +1,43 @@
 locations
 
+GET
+/locations/
+---locations_list
+
+
+GET
+/locations/create/
+---locations_create_list
+
+
+POST
+/locations/create/
+---locations_create_create
+
+
+DELETE
+/locations/delete/{id}/
+---locations_delete_delete
+
+
+GET
+/locations/detail/{id}/
+---locations_detail_read
+
+
+PUT
+/locations/update/
+---locations_update_update
+
+
+PATCH
+/locations/update/
+---locations_update_partial_update
+
 tour
 
-GET /tour/all/---
-tour_all_list
+GET /tour/all/
+---tour_all_list
 
 
 GET
