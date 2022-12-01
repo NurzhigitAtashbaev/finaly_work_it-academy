@@ -9,4 +9,5 @@ attractions/migrations/
 staff/migrations/
 certificate/migrations/
 travel/migrations/
+weathers/migrations/
 
