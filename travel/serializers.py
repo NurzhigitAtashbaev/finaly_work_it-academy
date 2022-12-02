@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from .models import Tour, Category, Types, Comment, Entry
 
 
@@ -57,6 +58,18 @@ class TourCrudSerializer(serializers.ModelSerializer):
 
 
 class EntrySerializer(serializers.ModelSerializer):
+    def validate(self, attrs):
+        print(attrs)
+        q = attrs['tour'].quantity_of_seats
+        q2 = Entry.objects.filter(tour=attrs['tour']).count()
+        if q2 >= q:
+            raise ValidationError(
+                {
+                    'tour': 'asdasdasd'
+                }
+            )
+        return attrs
+
     class Meta:
         model = Entry
         fields = "__all__"
@@ -68,18 +81,4 @@ class DeleteCommentSerializer(serializers.ModelSerializer):
         fields = ('id', 'user')
 
 
-class TourDateFindSerializers(serializers.ModelSerializer):
-    start_day_find = serializers.DateField(write_only=True)
-    end_day_find = serializers.DateField(write_only=True)
-
-    class Meta:
-        model = Tour
-        fields = (
-            'id',
-            'title',
-            'start_day',
-            'end_day',
-            'start_day_find',
-            'end_day_find',
-        )
 
