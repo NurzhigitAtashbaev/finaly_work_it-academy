@@ -8,3 +8,4 @@ class IsPostOrCommentOwner(permissions.BasePermission):
 
             return obj.user == request.user
         return True
+

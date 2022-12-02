@@ -1,14 +1,26 @@
-from django.views.generic import WeekArchiveView
-from rest_framework import status
+from django.utils.timezone import datetime
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import status, filters
 from rest_framework.response import Response
-from .permissions import IsPostOrCommentOwner
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticatedOrReadOnly
-from rest_framework.generics import (ListAPIView, RetrieveAPIView, CreateAPIView, DestroyAPIView, ListCreateAPIView,
-                                     get_object_or_404
-                                     )
+from rest_framework.generics import (ListAPIView, RetrieveAPIView, CreateAPIView, DestroyAPIView, ListCreateAPIView)
+
 from .serializers import (TourSerializer, CategorySerializer, TypesSerializer, TourCrudSerializer,
-                          EntrySerializer, CommentSerializer, DeleteCommentSerializer)
+                          EntrySerializer, CommentSerializer, DeleteCommentSerializer, TourDateFindSerializers)
 from .models import Tour, Category, Types, Entry, Comment
+from .permissions import IsPostOrCommentOwner
+
+from django_filters import rest_framework as filters_
+
+
+# фильтр для поиска туров по дате и названию
+
+class TourDateFilter(filters_.FilterSet):
+    start_day = filters_.DateFromToRangeFilter(field_name="start_day")
+
+    class Meta:
+        model = Tour
+        fields = ['start_day']
 
 
 # Для просмотра всех туров
@@ -16,6 +28,10 @@ class TourListView(ListAPIView):
     queryset = Tour.objects.all()
     serializer_class = TourSerializer
     permission_classes = [AllowAny]
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
+    filterset_class = TourDateFilter
+    search_fields = ['title']
+    filterset_fields = ['start_day']
 
 
 # для детального просмотра
@@ -74,13 +90,3 @@ class DeleteCommentView(DestroyAPIView):
     serializer_class = DeleteCommentSerializer
     permission_classes = (IsPostOrCommentOwner, IsAuthenticatedOrReadOnly)
     queryset = Comment.objects.all()
-
-
-class FindDataTourView(WeekArchiveView):
-    queryset = Tour.objects.all()
-    date_field = "start_day"
-    print(queryset)
-    week_format = "%W"
-    allow_future = True
-
-
