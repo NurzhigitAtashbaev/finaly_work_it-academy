@@ -1,10 +1,11 @@
 from django.urls import path
 from .views import (TourListView, TourDetailView, CategoryDetailView, TypesDetailView,
-                    CreateTourViews, EntryTourViews, CreateCommentView, DeleteCommentView)
+                    CreateTourViews, EntryTourViews, CreateCommentView, DeleteCommentView, AdminTourDetailAPIView)
 
 urlpatterns = [
     path('all/', TourListView.as_view()),
     path('detail/<int:pk>/', TourDetailView.as_view()),
+    path('admin/detail/<int:pk>/', AdminTourDetailAPIView.as_view()),
     path('category/<int:pk>/', CategoryDetailView.as_view()),
     path('types/<int:pk>/', TypesDetailView.as_view()),
 

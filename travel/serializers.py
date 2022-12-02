@@ -1,4 +1,6 @@
 from rest_framework import serializers
+
+from users.serializers import UsersProfileSerializer
 from .models import Tour, Category, Types, Comment, Entry
 
 
@@ -83,3 +85,16 @@ class TourDateFindSerializers(serializers.ModelSerializer):
             'end_day_find',
         )
 
+
+class AdminTourDetailSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+
+    def get_user(self, obj):
+        a = UsersProfileSerializer(obj.user).data
+        c = a.get('username')
+        b = a.get('phone')
+        return c, b
+
+    class Meta:
+        model = Entry
+        fields = ('id', 'tour', 'user')
