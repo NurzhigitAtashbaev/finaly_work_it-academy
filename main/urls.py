@@ -26,4 +26,3 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('locations/', include('attractions.urls')),
     path('tour/', include('travel.urls')),
-]

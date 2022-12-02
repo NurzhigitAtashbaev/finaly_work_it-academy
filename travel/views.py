@@ -1,4 +1,3 @@
-from django.utils.timezone import datetime
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status, filters
 from rest_framework.response import Response
@@ -6,6 +5,8 @@ from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticatedOrR
 from rest_framework.generics import (ListAPIView, RetrieveAPIView, CreateAPIView, DestroyAPIView, ListCreateAPIView)
 
 from .serializers import (TourSerializer, CategorySerializer, TypesSerializer, TourCrudSerializer,
+                          EntrySerializer, CommentSerializer, DeleteCommentSerializer, AdminTourDetailSerializer)
+
                           EntrySerializer, CommentSerializer, DeleteCommentSerializer, SeatsCountSerializer)
 from .models import Tour, Category, Types, Entry, Comment
 from .permissions import IsPostOrCommentOwner
@@ -87,7 +88,14 @@ class CreateCommentView(ListCreateAPIView):
 
 # удаление комментов
 class DeleteCommentView(DestroyAPIView):
+    queryset = Comment.objects.all()
     serializer_class = DeleteCommentSerializer
     permission_classes = (IsPostOrCommentOwner, IsAuthenticatedOrReadOnly)
-    queryset = Comment.objects.all()
 
+
+class AdminTourDetailAPIView(ListAPIView):
+    queryset = Entry.objects.all()
+    serializer_class = AdminTourDetailSerializer
+    permission_classes = (AllowAny, IsAdminUser,)
+
+    queryset = Comment.objects.all()

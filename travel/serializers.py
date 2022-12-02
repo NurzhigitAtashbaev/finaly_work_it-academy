@@ -1,4 +1,7 @@
 from rest_framework import serializers
+
+from users.serializers import UsersProfileSerializer
+
 from rest_framework.exceptions import ValidationError
 from .models import Tour, Category, Types, Comment, Entry
 
@@ -82,3 +85,16 @@ class DeleteCommentSerializer(serializers.ModelSerializer):
 
 
 
+
+class AdminTourDetailSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+
+    def get_user(self, obj):
+        a = UsersProfileSerializer(obj.user).data
+        c = a.get('username')
+        b = a.get('phone')
+        return c, b
+
+    class Meta:
+        model = Entry
+        fields = ('id', 'tour', 'user')

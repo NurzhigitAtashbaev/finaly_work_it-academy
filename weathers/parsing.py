@@ -15,7 +15,7 @@ def get_info(html):
     days = object_1.find('div', {'class': 'tabs'})
     pogoda = days.find('div', {'id': 'bd1'}).text.split()
     temp_today = object_1.find('div', {'class': 'tabsContent'})
-    temp_now = temp_today.find('p', {'class':'today-temp'}).text
+    temp_now = temp_today.find('p', {'class': 'today-temp'}).text
     text_ = temp_today.find('div', {'class': 'description'}).text.lstrip()
     f1 = ''
     for i in pogoda[0:3]:
