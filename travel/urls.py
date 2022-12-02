@@ -14,4 +14,5 @@ urlpatterns = [
     path('comment/', CreateCommentView.as_view()),
     path('delete_comment/<int:pk>/', DeleteCommentView.as_view()),
 
+
 ]

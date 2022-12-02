@@ -7,6 +7,7 @@ from rest_framework.generics import (ListAPIView, RetrieveAPIView, CreateAPIView
 from .serializers import (TourSerializer, CategorySerializer, TypesSerializer, TourCrudSerializer,
                           EntrySerializer, CommentSerializer, DeleteCommentSerializer, AdminTourDetailSerializer)
 
+                          EntrySerializer, CommentSerializer, DeleteCommentSerializer, SeatsCountSerializer)
 from .models import Tour, Category, Types, Entry, Comment
 from .permissions import IsPostOrCommentOwner
 
@@ -96,3 +97,5 @@ class AdminTourDetailAPIView(ListAPIView):
     queryset = Entry.objects.all()
     serializer_class = AdminTourDetailSerializer
     permission_classes = (AllowAny, IsAdminUser,)
+
+    queryset = Comment.objects.all()
