@@ -68,3 +68,18 @@ class DeleteCommentSerializer(serializers.ModelSerializer):
         fields = ('id', 'user')
 
 
+class TourDateFindSerializers(serializers.ModelSerializer):
+    start_day_find = serializers.DateField(write_only=True)
+    end_day_find = serializers.DateField(write_only=True)
+
+    class Meta:
+        model = Tour
+        fields = (
+            'id',
+            'title',
+            'start_day',
+            'end_day',
+            'start_day_find',
+            'end_day_find',
+        )
+
