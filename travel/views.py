@@ -4,7 +4,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.generics import (ListAPIView, RetrieveAPIView, CreateAPIView, DestroyAPIView, ListCreateAPIView)
 
-from .serializers import (EntrySerializer, CommentSerializer, DeleteCommentSerializer, AdminTourDetailSerializer, )
+from .serializers import (EntrySerializer, CommentSerializer, DeleteCommentSerializer, AdminTourDetailSerializer,
+                          TourSerializer, CategorySerializer, TourCrudSerializer, TypesSerializer)
 
 from .models import Tour, Category, Types, Entry, Comment
 
