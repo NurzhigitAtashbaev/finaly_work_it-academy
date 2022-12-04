@@ -65,7 +65,7 @@ class EntrySerializer(serializers.ModelSerializer):
         if q2 >= q:
             raise ValidationError(
                 {
-                    'tour': 'asdasdasd'
+                    'quantity_of_seats': 'Извините, Все места забронированы! Вы можете записаться на другую дату!'
                 }
             )
         return attrs

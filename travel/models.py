@@ -35,7 +35,7 @@ class Tour(models.Model):
     title = models.CharField(max_length=100, blank=False, null=False)
     slug = models.SlugField()
     body = models.TextField()
-    price = models.IntegerField()
+    price = models.IntegerField(blank=True, null=True)
     start_day = models.DateField()
     end_day = models.DateField()
     quantity_of_seats = models.IntegerField()
