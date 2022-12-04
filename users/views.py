@@ -1,11 +1,8 @@
-from django.contrib.auth.tokens import default_token_generator
-from rest_framework.decorators import action
-from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateDestroyAPIView, )
-from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
+from rest_framework.generics import RetrieveUpdateDestroyAPIView
+from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework import viewsets, generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from .models import CustomUser
 
 from .models import CustomUser
 from .permissions import IsOwnerProfileOrReadOnly
@@ -19,7 +16,7 @@ from .serializers import (UsersProfileSerializer,
 class RegisterUserView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserRegisterSerializer
-    permission_classes = [AllowAny, ]
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         serializer = UserRegisterSerializer(data=request.data)
@@ -37,7 +34,6 @@ class UserProfileListCreateView(generics.ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UsersProfileSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
-
 
     def perform_create(self, serializer):
         user = self.request.user

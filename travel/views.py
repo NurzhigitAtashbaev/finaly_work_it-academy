@@ -4,15 +4,17 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.generics import (ListAPIView, RetrieveAPIView, CreateAPIView, DestroyAPIView, ListCreateAPIView)
 
-from .serializers import (TourSerializer, CategorySerializer, TypesSerializer, TourCrudSerializer,
-                          EntrySerializer, CommentSerializer, DeleteCommentSerializer)
+from .serializers import (EntrySerializer, CommentSerializer, DeleteCommentSerializer, AdminTourDetailSerializer, )
+
 from .models import Tour, Category, Types, Entry, Comment
+
 from .permissions import IsPostOrCommentOwner
 
 from django_filters import rest_framework as filters_
 
 
 # фильтр для поиска туров по дате и названию
+
 
 class TourDateFilter(filters_.FilterSet):
     start_day = filters_.DateFromToRangeFilter(field_name="start_day")
@@ -86,7 +88,14 @@ class CreateCommentView(ListCreateAPIView):
 
 # удаление комментов
 class DeleteCommentView(DestroyAPIView):
+    queryset = Comment.objects.all()
     serializer_class = DeleteCommentSerializer
     permission_classes = (IsPostOrCommentOwner, IsAuthenticatedOrReadOnly)
-    queryset = Comment.objects.all()
+
+
+class AdminTourDetailAPIView(ListAPIView):
+    queryset = Entry.objects.all()
+    serializer_class = AdminTourDetailSerializer
+    permission_classes = (AllowAny, IsAdminUser,)
+
 
