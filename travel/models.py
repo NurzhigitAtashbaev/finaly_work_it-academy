@@ -35,7 +35,7 @@ class Tour(models.Model):
     title = models.CharField(max_length=100, blank=False, null=False)
     slug = models.SlugField()
     body = models.TextField()
-    price = models.IntegerField()
+    price = models.IntegerField(blank=True, null=True)
     start_day = models.DateField()
     end_day = models.DateField()
     quantity_of_seats = models.IntegerField()
@@ -48,7 +48,7 @@ class Tour(models.Model):
 
 # Модель запись на тур
 class Entry(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    user = models.ManyToManyField(CustomUser,)
     tour = models.ForeignKey(Tour, on_delete=models.PROTECT)
     date_buy = models.DateField(auto_now_add=True)
 

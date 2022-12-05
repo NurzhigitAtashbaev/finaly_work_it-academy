@@ -7,9 +7,9 @@ from .views import (
         AttractionsDestroyAPIView,
     )
 urlpatterns = [
-    path('', AttractionsListAPIView.as_view()),
-    path('create/', AttractionsCreateAPIView.as_view()),
-    path('update/', AttractionsUpdateAPIView.as_view()),
-    path('detail/<int:pk>/', AttractionsRetrieveAPIView.as_view()),
-    path('delete/<int:pk>/', AttractionsDestroyAPIView.as_view()),
+    path('', AttractionsListAPIView.as_view(), name='attractions-list'),
+    path('create/', AttractionsCreateAPIView.as_view(),name='attractions-create'),
+    path('update/', AttractionsUpdateAPIView.as_view(), name='attractions-update'),
+    path('detail/<int:pk>/', AttractionsRetrieveAPIView.as_view(), name='attraction-detail'),
+    path('delete/<int:pk>/', AttractionsDestroyAPIView.as_view(), name='attraction-delete'),
 ]
