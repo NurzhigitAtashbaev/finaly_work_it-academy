@@ -84,10 +84,8 @@ class DeleteCommentSerializer(serializers.ModelSerializer):
         fields = ('id', 'user')
 
 
-
-
 class AdminTourDetailSerializer(serializers.ModelSerializer):
-    user = serializers.SerializerMethodField()
+    user = serializers.SerializerMethodField
 
     def get_user(self, obj):
         a = UsersProfileSerializer(obj.user).data

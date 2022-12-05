@@ -93,7 +93,7 @@ class DeleteCommentView(DestroyAPIView):
     permission_classes = (IsPostOrCommentOwner, IsAuthenticatedOrReadOnly)
 
 
-class AdminTourDetailAPIView(ListAPIView):
+class AdminTourDetailAPIView(RetrieveAPIView):
     queryset = Entry.objects.all()
     serializer_class = AdminTourDetailSerializer
     permission_classes = (AllowAny, IsAdminUser,)
