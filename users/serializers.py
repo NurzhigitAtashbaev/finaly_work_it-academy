@@ -3,12 +3,6 @@ from rest_framework import serializers
 from .models import CustomUser
 
 
-class UsersProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = '__all__'
-
-
 class UserRegisterSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField()
 
@@ -30,6 +24,16 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+
+
+class UsersProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = '__all__'
+class AdminWatchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ('id', 'username', 'phone')
 
 
 class VerifySerializer(serializers.ModelSerializer):

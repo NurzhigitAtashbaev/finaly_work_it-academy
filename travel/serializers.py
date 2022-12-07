@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from users.serializers import UsersProfileSerializer
+from users.serializers import UsersProfileSerializer, AdminWatchSerializer
 from .models import Tour, Category, Types, Comment, Entry
 
 

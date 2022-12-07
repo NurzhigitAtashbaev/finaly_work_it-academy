@@ -31,7 +31,7 @@ class Types(models.Model):
 class Tour(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='tours')
     types = models.ForeignKey(Types, on_delete=models.CASCADE, related_name='tours')
-    image = models.ImageField()
+    image = models.ImageField(blank=True, null=True)
     title = models.CharField(max_length=100, blank=False, null=False)
     slug = models.SlugField()
     body = models.TextField()
@@ -48,9 +48,15 @@ class Tour(models.Model):
 
 # Модель запись на тур
 class Entry(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='entries')
     tour = models.ForeignKey(Tour, on_delete=models.PROTECT)
     date_buy = models.DateField(auto_now_add=True)
+
+    def get_user_phone(self):
+        return self.user.phone
+
+    def __str__(self):
+        return f'{self.tour}'
 
 
 # Модель комментарий к туру
