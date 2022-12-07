@@ -48,7 +48,7 @@ class Tour(models.Model):
 
 # Модель запись на тур
 class Entry(models.Model):
-    user = models.ManyToManyField(CustomUser,)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     tour = models.ForeignKey(Tour, on_delete=models.PROTECT)
     date_buy = models.DateField(auto_now_add=True)
 

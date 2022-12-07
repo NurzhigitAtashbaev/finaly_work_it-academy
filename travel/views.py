@@ -7,7 +7,8 @@ from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticatedOrR
 from rest_framework.generics import (ListAPIView, RetrieveAPIView, CreateAPIView, DestroyAPIView, ListCreateAPIView)
 
 from .serializers import (EntrySerializer, CommentSerializer, DeleteCommentSerializer, AdminTourDetailSerializer,
-                          TourSerializer, CategorySerializer, TypesSerializer, TourCrudSerializer)
+                          TourSerializer, CategorySerializer, TourCrudSerializer, TypesSerializer)
+
 from .models import Tour, Category, Types, Entry, Comment
 from .permissions import IsPostOrCommentOwner
 
@@ -88,9 +89,3 @@ class DeleteCommentView(DestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = DeleteCommentSerializer
     permission_classes = (IsPostOrCommentOwner, IsAuthenticatedOrReadOnly)
-
-'''Для детального просмотра,Доступ только у Админа  '''
-class AdminTourDetailAPIView(ListAPIView):
-    queryset = Entry.objects.all()
-    serializer_class = AdminTourDetailSerializer
-    permission_classes = (AllowAny, IsAdminUser,)
