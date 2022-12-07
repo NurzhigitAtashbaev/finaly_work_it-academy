@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from rest_framework import generics
 
-# Create your views here.
+from .models import AboutStaff, Contacts
+from .serializers import StaffListSerializer
+
+class StaffListAPIView(generics.ListAPIView):
+    queryset = AboutStaff.objects.all()
+    serializer_class = StaffListSerializer

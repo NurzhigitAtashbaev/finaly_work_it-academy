@@ -1,4 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework as filters_
+
 from rest_framework import status, filters
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticatedOrReadOnly
@@ -8,15 +10,10 @@ from .serializers import (EntrySerializer, CommentSerializer, DeleteCommentSeria
                           TourSerializer, CategorySerializer, TourCrudSerializer, TypesSerializer)
 
 from .models import Tour, Category, Types, Entry, Comment
-
 from .permissions import IsPostOrCommentOwner
-
-from django_filters import rest_framework as filters_
 
 
 # фильтр для поиска туров по дате и названию
-
-
 class TourDateFilter(filters_.FilterSet):
     start_day = filters_.DateFromToRangeFilter(field_name="start_day")
 
@@ -92,11 +89,3 @@ class DeleteCommentView(DestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = DeleteCommentSerializer
     permission_classes = (IsPostOrCommentOwner, IsAuthenticatedOrReadOnly)
-
-
-class AdminTourDetailAPIView(ListAPIView):
-    queryset = Entry.objects.all()
-    serializer_class = AdminTourDetailSerializer
-    permission_classes = (AllowAny, IsAdminUser,)
-
-
