@@ -91,6 +91,6 @@ class DeleteCommentView(DestroyAPIView):
 
 '''Для детального просмотра,Доступ только у Админа  '''
 class AdminTourDetailAPIView(ListAPIView):
-    queryset = Entry.objects.all().
+    queryset = Entry.objects.all()
     serializer_class = AdminTourDetailSerializer
     permission_classes = (AllowAny, IsAdminUser,)

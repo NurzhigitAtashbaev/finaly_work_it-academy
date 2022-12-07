@@ -13,11 +13,6 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ('id', 'text', 'image', 'user', 'tour')
 
-        # def get(self, request):
-        #     serializer = TourSerializer(Comment.objects.all(), many=True)
-        #     serializer.save()
-
-
 class TourSerializer(serializers.ModelSerializer):
     category = serializers.CharField(source="category.title")
     types = serializers.CharField(source="types.title")
