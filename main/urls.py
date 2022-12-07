@@ -6,11 +6,11 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="My service API",
+        title="Travel API",
         default_version='v1',
-        description=" My description",
-        terms_of_service="https://www.mysite.com/policies/terms/",
-        contact=openapi.Contact(email="my_contact@snippets.local"),
+        description="My travels site api",
+        terms_of_service="",
+        contact=openapi.Contact(email="atashbaevnurjigit@gmail.com"),
         license=openapi.License(name="My License"),
     ),
     public=True,
