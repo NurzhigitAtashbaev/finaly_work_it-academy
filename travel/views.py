@@ -8,6 +8,7 @@ from rest_framework.generics import (ListAPIView, RetrieveAPIView, CreateAPIView
 
 from .serializers import (EntrySerializer, CommentSerializer, DeleteCommentSerializer,
                           TourSerializer, CategorySerializer, TypesSerializer, TourCrudSerializer)
+
 from .models import Tour, Category, Types, Entry, Comment
 from .permissions import IsPostOrCommentOwner
 

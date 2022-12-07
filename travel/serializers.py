@@ -82,3 +82,4 @@ class DeleteCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('id', 'user')
+

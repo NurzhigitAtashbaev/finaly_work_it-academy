@@ -1,4 +1,9 @@
 from django.contrib import admin
-from .models import Certificate
+from .models import OrderCertificate
 
-admin.site.register(Certificate)
+
+@admin.register(OrderCertificate)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['id', 'tours', 'info', 'count_people', 'email', 'phone', 'sender', 'addressee', 'paid']
+
+
