@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from users.serializers import UsersProfileSerializer
+from users.serializers import UsersProfileSerializer, AdminWatchSerializer
 from .models import Tour, Category, Types, Comment, Entry
 
 
@@ -82,18 +82,3 @@ class DeleteCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('id', 'user')
-
-
-'''Ввывод Список Туров и всех участников этого тура'''
-
-
-class AdminTourDetailSerializer(serializers.ModelSerializer):
-    user = serializers.SerializerMethodField(read_only=True)
-
-    def get_user(self, obj):
-        a = UsersProfileSerializer(obj.user.all(), many=True).data
-        return a
-
-    class Meta:
-        model = Entry
-        fields = ('tour', 'user')
