@@ -1,8 +1,7 @@
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 
 from users.serializers import UsersProfileSerializer
-
-from rest_framework.exceptions import ValidationError
 from .models import Tour, Category, Types, Comment, Entry
 
 
@@ -60,12 +59,14 @@ class TourCrudSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+'''Запись на тур,Если мест нету выдаст ошибку'''
+
 class EntrySerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         print(attrs)
-        q = attrs['tour'].quantity_of_seats
-        q2 = Entry.objects.filter(tour=attrs['tour']).count()
-        if q2 >= q:
+        quantity = attrs['tour'].quantity_of_seats
+        quantity2 = Entry.objects.filter(tour=attrs['tour']).count()
+        if quantity2 >= quantity:
             raise ValidationError(
                 {
                     'quantity_of_seats': 'Извините, Все места забронированы! Вы можете записаться на другую дату!'
@@ -78,21 +79,26 @@ class EntrySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+'''Удаление коментариев Под Турами.
+Коментарий может удалить только тот человек кто его написал'''
+
+
 class DeleteCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('id', 'user')
 
 
+'''Ввывод Список Туров и всех участников этого тура'''
+
+
 class AdminTourDetailSerializer(serializers.ModelSerializer):
-    user = serializers.SerializerMethodField
+    user = serializers.SerializerMethodField(read_only=True)
 
     def get_user(self, obj):
-        a = UsersProfileSerializer(obj.user).data
-        c = a.get('username')
-        b = a.get('phone')
-        return c, b
+        a = UsersProfileSerializer(obj.user.all(), many=True).data
+        return a
 
     class Meta:
         model = Entry
-        fields = ('id', 'tour', 'user')
+        fields = ('tour', 'user')
