@@ -90,6 +90,7 @@ class DeleteCommentView(DestroyAPIView):
     serializer_class = DeleteCommentSerializer
     permission_classes = (IsPostOrCommentOwner, IsAuthenticatedOrReadOnly)
 
+<<<<<<< HEAD
 
 class LikeCreateView(ListCreateAPIView):
     """Добавление лайков"""
@@ -103,3 +104,10 @@ class LikeDeleteView(DestroyAPIView):
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
     permission_classes = (IsPostOrCommentOwner, IsAuthenticatedOrReadOnly)
+=======
+'''Для детального просмотра,Доступ только у Админа  '''
+class AdminTourDetailAPIView(ListAPIView):
+    queryset = Entry.objects.all()
+    serializer_class = AdminTourDetailSerializer
+    permission_classes = (AllowAny, IsAdminUser,)
+>>>>>>> cceb02a (cleaning + staff view, serializers,urls)

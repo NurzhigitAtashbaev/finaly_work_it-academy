@@ -29,8 +29,12 @@ INSTALLED_APPS = [
 
     'django_filters',
     'drf_yasg',
+<<<<<<< HEAD
     'corsheaders',
 
+=======
+    
+>>>>>>> cceb02a (cleaning + staff view, serializers,urls)
     'rest_framework',
     'django_rest_passwordreset',
 
