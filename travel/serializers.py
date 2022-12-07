@@ -84,8 +84,6 @@ class DeleteCommentSerializer(serializers.ModelSerializer):
         fields = ('id', 'user')
 
 
-
-
 class AdminTourDetailSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
 

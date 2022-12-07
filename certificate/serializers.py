@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Certificate
+from .models import OrderCertificate
 from travel.serializers import TourSerializer
 
 
@@ -13,5 +13,5 @@ class CertificateSerializer(serializers.ModelSerializer):
         return title, price
 
     class Meta:
-        model = Certificate
-        fields = ('body', 'count_people', 'sender', 'addressee', 'tours', 'tour',)
+        model = OrderCertificate
+        fields = ('tours', 'info', 'count_people', 'phone', 'email', 'sender', 'addressee', 'tour')
