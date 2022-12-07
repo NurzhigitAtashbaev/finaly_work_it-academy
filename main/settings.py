@@ -21,15 +21,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'django_filters',
-    'drf_yasg',
+    'users.apps.UsersConfig',
+    'staff.apps.StaffConfig',
+    'certificate.apps.CertificateConfig',
     'attractions.apps.AttractionsConfig',
     'travel.apps.TravelConfig',
-    'users.apps.UsersConfig',
-    'certificate.apps.CertificateConfig',
-    'staff.apps.StaffConfig',
 
-    # rest API implementation library for django
+    'django_filters',
+    'drf_yasg',
+    
     'rest_framework',
     'django_rest_passwordreset',
 
