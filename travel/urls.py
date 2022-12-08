@@ -2,8 +2,7 @@ from django.urls import path
 from .views import (TourListView, TourDetailView,
                     CategoryDetailView, TypesDetailView,
                     CreateTourViews, EntryTourViews,
-                    CreateCommentView, DeleteCommentView,)
-
+                    CreateCommentView, DeleteCommentView, LikeCreateView, LikeDeleteView)
 
 urlpatterns = [
     path('all/', TourListView.as_view()),
@@ -15,4 +14,7 @@ urlpatterns = [
     path('entry/', EntryTourViews.as_view()),
     path('comment/', CreateCommentView.as_view()),
     path('delete_comment/<int:pk>/', DeleteCommentView.as_view()),
+    path('like/', LikeCreateView.as_view()),
+    path('like_delete/<int:pk>/', LikeDeleteView.as_view()),
+
 ]

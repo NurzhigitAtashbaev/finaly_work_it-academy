@@ -1,8 +1,7 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-
-from users.serializers import UsersProfileSerializer, AdminWatchSerializer
-from .models import Tour, Category, Types, Comment, Entry
+from .models import Tour, Category, Types, Comment, Entry, Like
+from users.serializers import UsersProfileSerializer
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -13,6 +12,7 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ('id', 'text', 'image', 'user', 'tour')
 
+
 class TourSerializer(serializers.ModelSerializer):
     category = serializers.CharField(source="category.title")
     types = serializers.CharField(source="types.title")
@@ -20,7 +20,7 @@ class TourSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tour
-        fields = "__all__"
+        fields = ('id', 'category', 'types', 'title', 'image', 'price', 'start_day', 'end_day', 'likes_count')
 
         def get(self, request):
             serializer = TourSerializer(Tour.objects.all(), many=True)
@@ -56,6 +56,7 @@ class TourCrudSerializer(serializers.ModelSerializer):
 
 '''Запись на тур,Если мест нету выдаст ошибку'''
 
+
 class EntrySerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         print(attrs)
@@ -74,12 +75,32 @@ class EntrySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-'''Удаление коментариев Под Турами.
-Коментарий может удалить только тот человек кто его написал'''
-
-
 class DeleteCommentSerializer(serializers.ModelSerializer):
+    '''Удаление коментариев Под Турами.
+    Коментарий может удалить только тот человек кто его написал'''
     class Meta:
         model = Comment
         fields = ('id', 'user')
 
+
+class LikeSerializer(serializers.ModelSerializer):
+    likes_count = serializers.IntegerField(read_only=True)
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        if isinstance(instance, Like):
+            data['likes_count'] = instance.like
+        elif isinstance(instance, Tour):
+            likes = Like.objects.filter(tour=instance)
+            data['likes_count'] = likes.count()
+        return data
+
+    class Meta:
+        model = Like
+        fields = ('id', 'like', 'user', 'tour', 'likes_count')
+
+
+class LikeDeleteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Like
+        fields = ('id', 'user')

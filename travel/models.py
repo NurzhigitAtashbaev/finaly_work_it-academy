@@ -43,8 +43,9 @@ class Tour(models.Model):
     def __str__(self):
         return str(self.title)
 
+    def likes_count(self):
+        return self.likes.all().count()
 
-# Tour.objects.filter(date__range=[date1, date2])
 
 # Модель запись на тур
 class Entry(models.Model):
@@ -77,9 +78,11 @@ class Comment(models.Model):
 
 
 class Like(models.Model):
-    user = models.ForeignKey(CustomUser, related_name='tour_like', on_delete=models.CASCADE,
+    like = models.IntegerField(default=0)
+    user = models.ForeignKey(CustomUser, related_name='post_likes', on_delete=models.CASCADE,
                              verbose_name='Пользователь')
     tour = models.ForeignKey(Tour, on_delete=models.CASCADE, related_name='likes', verbose_name='Тур')
 
     class Meta:
-        unique_together = ['user', 'tour']
+        unique_together = ['user', 'tour', 'like']
+

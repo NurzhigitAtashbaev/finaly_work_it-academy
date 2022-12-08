@@ -45,7 +45,7 @@ def login_user(request):
         password = reqBody['password']
         try:
 
-            Account = CustomUser.objects.get(Email_Address=email1)
+            Account = CustomUser.objects.get()
         except BaseException as e:
             raise ValidationError({"400": f'{str(e)}'})
 
