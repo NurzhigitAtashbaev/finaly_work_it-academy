@@ -3,8 +3,6 @@ from .models import Tour, Types, Entry, Comment, Category, Like
 
 
 admin.site.register(Types)
-
-
 admin.site.register(Category)
 admin.site.register(Like)
 

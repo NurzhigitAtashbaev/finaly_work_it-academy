@@ -1,16 +1,14 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters_
-
 from rest_framework import status, filters
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.generics import (ListAPIView, RetrieveAPIView, CreateAPIView, DestroyAPIView, ListCreateAPIView)
-
-from .serializers import (EntrySerializer, CommentSerializer, DeleteCommentSerializer,
-                          TourSerializer, CategorySerializer, TypesSerializer, TourCrudSerializer)
-
-from .models import Tour, Category, Types, Entry, Comment
 from .permissions import IsPostOrCommentOwner
+from .serializers import (EntrySerializer, CommentSerializer, DeleteCommentSerializer,
+                          TourSerializer, CategorySerializer, TypesSerializer, TourCrudSerializer, LikeSerializer)
+
+from .models import Tour, Category, Types, Entry, Comment, Like
 
 
 class TourDateFilter(filters_.FilterSet):
@@ -86,9 +84,22 @@ class CreateCommentView(ListCreateAPIView):
         return Response("comment created!", status=status.HTTP_202_ACCEPTED)
 
 
-
 class DeleteCommentView(DestroyAPIView):
     """Удаление комментов"""
     queryset = Comment.objects.all()
     serializer_class = DeleteCommentSerializer
+    permission_classes = (IsPostOrCommentOwner, IsAuthenticatedOrReadOnly)
+
+
+class LikeCreateView(ListCreateAPIView):
+    """Добавление лайков"""
+    queryset = Like.objects.all()
+    serializer_class = LikeSerializer
+    permission_classes = IsAuthenticatedOrReadOnly
+
+
+class LikeDeleteView(DestroyAPIView):
+    """Удаление лайков """
+    queryset = Like.objects.all()
+    serializer_class = LikeSerializer
     permission_classes = (IsPostOrCommentOwner, IsAuthenticatedOrReadOnly)
