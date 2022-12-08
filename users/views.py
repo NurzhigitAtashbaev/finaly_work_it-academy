@@ -1,9 +1,14 @@
+from django.contrib.auth import login
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.exceptions import ValidationError
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django_filters import rest_framework as filters_
 from rest_framework import viewsets, generics, status
+from rest_framework.utils import json
+from rest_framework_simplejwt.views import token_obtain_pair
 
 from .models import CustomUser, UserProfile
 from .permissions import IsOwnerProfileOrReadOnly

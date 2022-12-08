@@ -10,5 +10,6 @@ class StaffListAPIView(generics.ListAPIView):
 
 
 class ContactsListAPIView(generics.ListAPIView):
+    """Список Контактов"""
     queryset = Contacts.objects.all()
     serializer_class = ContactSerializer
