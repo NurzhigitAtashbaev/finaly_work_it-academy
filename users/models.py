@@ -72,10 +72,9 @@ class CustomUser(AbstractUser):
         self.save(update_fields=['is_active'])
 
 
-'''User Profile Model'''
-
 
 class UserProfile(models.Model):
+    """Профилль пользователя"""
     image = models.ImageField(blank=False, null=True, upload_to="profile_images")
     user = models.OneToOneField(settings.AUTH_USER_MODEL, primary_key=True, on_delete=models.CASCADE,
                                 related_name='user')
