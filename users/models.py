@@ -7,7 +7,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django_rest_passwordreset.signals import reset_password_token_created
 from uuid import uuid4
-
 from phonenumber_field.modelfields import PhoneNumberField
 
 
