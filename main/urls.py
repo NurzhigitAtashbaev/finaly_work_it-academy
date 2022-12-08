@@ -24,6 +24,7 @@ urlpatterns = [
 
     # path to user register end points
     path('users/', include('users.urls'),name='users'),
+
     path('locations/', include('attractions.urls'),name='locations'),
     path('tour/', include('travel.urls'),name='tour'),
     path('certificate/', include('certificate.urls'),name='certificate'),

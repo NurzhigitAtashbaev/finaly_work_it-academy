@@ -2,7 +2,7 @@ from django.db import models
 
 
 class AboutStaff(models.Model):
-    image = models.ImageField(blank=True, null=True)
+    image = models.ImageField(blank=True, null=True, upload_to='staff_images')
     staff_name = models.CharField(max_length=50, )
     professional = models.CharField(max_length=150)
     about = models.TextField(max_length=1000)

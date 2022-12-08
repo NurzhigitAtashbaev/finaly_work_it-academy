@@ -31,7 +31,7 @@ class Types(models.Model):
 class Tour(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='tours')
     types = models.ForeignKey(Types, on_delete=models.CASCADE, related_name='tours')
-    image = models.ImageField(blank=True, null=True)
+    image = models.ImageField(blank=True, null=True, upload_to='tour_images')
     title = models.CharField(max_length=100, blank=False, null=False)
     slug = models.SlugField()
     body = models.TextField()
@@ -44,10 +44,9 @@ class Tour(models.Model):
         return str(self.title)
 
 
-# Tour.objects.filter(date__range=[date1, date2])
 
-# Модель запись на тур
 class Entry(models.Model):
+    """Модель запись на тур"""
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='entries')
     tour = models.ForeignKey(Tour, on_delete=models.PROTECT)
     date_buy = models.DateField(auto_now_add=True)
@@ -59,9 +58,9 @@ class Entry(models.Model):
         return f'{self.tour}'
 
 
-# Модель комментарий к туру
 class Comment(models.Model):
-    image = models.ImageField(blank=True, null=True)
+    """ Модель комментарий к туру"""
+    image = models.ImageField(blank=True, null=True, upload_to='travel_comments')
     text = models.TextField(max_length=400, verbose_name='Комментарий')
     user = models.ForeignKey(CustomUser, related_name="comments", verbose_name="Пользователь", default=1,
                              on_delete=models.SET_DEFAULT)
