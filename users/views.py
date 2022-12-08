@@ -1,25 +1,21 @@
-from django.contrib.auth import logout, login
-from django.contrib.auth.hashers import check_password
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.exceptions import ValidationError
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import AllowAny, IsAdminUser
-from rest_framework import viewsets, generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.utils import json
-from rest_framework_simplejwt.views import token_obtain_pair
+from django_filters import rest_framework as filters_
+from rest_framework import viewsets, generics, status
 
-from .models import CustomUser
+from .models import CustomUser, UserProfile
 from .permissions import IsOwnerProfileOrReadOnly
 from .serializers import (UsersProfileSerializer,
                           UserRegisterSerializer,
                           VerifySerializer,
-                          ChangePasswordSerializer,
+                          PasswordChangeSerializer,
                           )
 
 
 class RegisterUserView(generics.CreateAPIView):
+    """Регистрация пользователя """
     queryset = CustomUser.objects.all()
     serializer_class = UserRegisterSerializer
     permission_classes = [AllowAny]
@@ -34,6 +30,8 @@ class RegisterUserView(generics.CreateAPIView):
         else:
             data = serializer.errors
             return Response(data)
+
+
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def login_user(request):
@@ -80,6 +78,7 @@ def User_logout(request):
 
 
 class UserProfileListCreateView(generics.ListAPIView):
+    """Список Профилей пользователев, Доступно только для Админа"""
     queryset = CustomUser.objects.all()
     serializer_class = UsersProfileSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
@@ -89,19 +88,25 @@ class UserProfileListCreateView(generics.ListAPIView):
         serializer.save(user=user)
 
 
+class UserProfileFilter(filters_.FilterSet):
+    """Фильтр для поиска профиля по username """
+    username = filters_.DateFromToRangeFilter(field_name="user")
+
+    class Meta:
+        model = UserProfile
+        fields = ['user']
+
+
 class UserProfileDetailView(RetrieveUpdateDestroyAPIView):
+    """Детальный просмотр определённого Профиля, Пока только для Админа"""
     queryset = CustomUser.objects.all()
     serializer_class = UsersProfileSerializer
+    filterset_class = UserProfileFilter
     permission_classes = [IsOwnerProfileOrReadOnly, IsAuthenticated, IsAdminUser]
 
 
-class UsersViewSet(viewsets.ModelViewSet):
-    queryset = CustomUser.objects.all()
-    serializer_class = UsersProfileSerializer
-    permission_classes = [IsAdminUser]
-
-
 class EmailVerifyAPIView(generics.RetrieveAPIView):
+    """Верификация gmail пользователя"""
     serializer_class = VerifySerializer
     queryset = CustomUser.objects.filter(is_active=False)
 
@@ -114,11 +119,9 @@ class EmailVerifyAPIView(generics.RetrieveAPIView):
         return Response(serializer.data)
 
 
-class ChangePasswordView(generics.UpdateAPIView):
-    """
-    An endpoint for changing password.
-    """
-    serializer_class = ChangePasswordSerializer
+class PasswordChangeAPIView(generics.UpdateAPIView):
+    """Смена пароля по email пользователя"""
+    serializer_class = PasswordChangeSerializer
     model = CustomUser
     permission_classes = (IsAuthenticated,)
 

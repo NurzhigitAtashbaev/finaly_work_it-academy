@@ -5,6 +5,7 @@ from .views import (TourListView, TourDetailView,
                     CreateCommentView, DeleteCommentView, LikeCreateView, LikeDeleteView)
 
 urlpatterns = [
+
     path('all/', TourListView.as_view()),
     path('detail/<int:pk>/', TourDetailView.as_view()),
     path('category/<int:pk>/', CategoryDetailView.as_view()),
@@ -18,3 +19,4 @@ urlpatterns = [
     path('like_delete/<int:pk>/', LikeDeleteView.as_view()),
 
 ]
+

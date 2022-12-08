@@ -4,6 +4,7 @@ from .serializers import StaffListSerializer, ContactSerializer
 
 
 class StaffListAPIView(generics.ListAPIView):
+    """Список сотрудников """
     queryset = AboutStaff.objects.all()
     serializer_class = StaffListSerializer
 
