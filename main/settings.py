@@ -29,7 +29,8 @@ INSTALLED_APPS = [
 
     'django_filters',
     'drf_yasg',
-    
+    'corsheaders',
+
     'rest_framework',
     'django_rest_passwordreset',
 
@@ -62,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'main.urls'
@@ -144,7 +146,6 @@ REST_FRAMEWORK = {
 # add model CustomUser
 AUTH_USER_MODEL = 'users.CustomUser'
 
-
 SIMPLE_JWT = {
     # Use JWT
     # 'AUTH_HEADER_TYPES': ('JWT',),
@@ -154,7 +155,8 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
-# send email settings
+"""Настройка отправки сообщения на gmail"""
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
@@ -163,3 +165,8 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = config('EM_USER')
 EMAIL_HOST_PASSWORD = config('EM_PASSWORD')
 DEFAULT_FROM_EMAIL = 'atashbaevnurjigit@gmail.com'
+
+""" Настройки для CORS"""
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True

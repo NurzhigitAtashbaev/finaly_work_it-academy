@@ -2,15 +2,14 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.shortcuts import render
-from rest_framework import generics, status
-from rest_framework.response import Response
-from .serializers import TourSerializer, CertificateSerializer
+from rest_framework import generics
+from .serializers import CertificateSerializer
 from .models import OrderCertificate
-from travel.models import Tour
+
 
 
 class OrderCreateView(generics.ListCreateAPIView):
+    """Покупка сертификата"""
     queryset = OrderCertificate.objects.all()
     serializer_class = CertificateSerializer
 
