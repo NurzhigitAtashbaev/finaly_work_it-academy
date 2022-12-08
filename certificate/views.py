@@ -7,7 +7,6 @@ from .serializers import CertificateSerializer
 from .models import OrderCertificate
 
 
-
 class OrderCreateView(generics.ListCreateAPIView):
     """Покупка сертификата"""
     queryset = OrderCertificate.objects.all()
@@ -25,5 +24,3 @@ def create_profile(sender, instance: OrderCertificate, created, **kwargs):
                   settings.EMAIL_HOST_USER,
                   [f'{instance.email}'],
                   fail_silently=False)
-
-
