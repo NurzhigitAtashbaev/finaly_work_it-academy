@@ -30,6 +30,8 @@ class UsersProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = '__all__'
+
+
 class AdminWatchSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
@@ -42,11 +44,21 @@ class VerifySerializer(serializers.ModelSerializer):
         fields = ('email', 'email_verify',)
 
 
-class ChangePasswordSerializer(serializers.Serializer):
+class PasswordChangeSerializer(serializers.Serializer):
     model = CustomUser
-
     """
     Serializer for password change endpoint.
     """
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
+
+    def validate_old_password(self, value):
+        user = self.context['request'].user
+        if not user.check_password(value):
+            raise serializers.ValidationError('Incorrect password')
+        return value
+
+    def save(self):
+        user = self.context['request'].user
+        user.set_password(self.validated_data['new_password'])
+        user.save()
