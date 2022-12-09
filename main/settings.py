@@ -29,12 +29,10 @@ INSTALLED_APPS = [
 
     'django_filters',
     'drf_yasg',
-<<<<<<< HEAD
-    'corsheaders',
 
-=======
+    'corsheaders',
+    'corsheaders',
     
->>>>>>> cceb02a (cleaning + staff view, serializers,urls)
     'rest_framework',
     'django_rest_passwordreset',
 
@@ -42,6 +40,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     # Automatic endpoint Swagger
     'rest_framework_swagger',
+
+    'celery',
 
 ]
 
@@ -67,7 +67,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'main.urls'
@@ -172,5 +172,15 @@ DEFAULT_FROM_EMAIL = 'atashbaevnurjigit@gmail.com'
 
 """ Настройки для CORS"""
 
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
+# CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOW_CREDENTIALS = True
+
+
+# Celery settings
+CELERY_TIMEZONE = "Asia/Bishkek"
+
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"

@@ -23,11 +23,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # path to user register end points
-    path('users/', include('users.urls'),name='users'),
-<<<<<<< HEAD
+    path('users/', include('users.urls'), name='users'),
 
-=======
->>>>>>> cceb02a (cleaning + staff view, serializers,urls)
+    path('locations/', include('attractions.urls'), name='locations'),
+    path('tour/', include('travel.urls'), name='tour'),
+    path('certificate/', include('certificate.urls'), name='certificate'),
+    path('users/', include('users.urls'),name='users'),
+    
     path('locations/', include('attractions.urls'),name='locations'),
     path('tour/', include('travel.urls'),name='tour'),
     path('certificate/', include('certificate.urls'),name='certificate'),
