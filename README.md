@@ -6,8 +6,13 @@ it-academy-Travel\
 Сайт для туров по Кыргызстану и не только!
 
 
-Install\.
+CLoning\
 git clone https://github.com/Doka-hub/filmy_bot.git \
+
+python3 -m venv venv\
+source venv/bin/activate\
+
+Install\
 pip install -r requitements.txt
 
 Migrate\
