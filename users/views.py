@@ -1,4 +1,4 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
@@ -37,42 +37,46 @@ class RegisterUserView(generics.CreateAPIView):
             return Response(data)
 
 
+def check_password(password, password1):
+    pass
+
+
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def login_user(request):
+    data = {}
+    reqBody = json.loads(request.body)
+    email1 = reqBody['Email_Address']
+    print(email1)
+    password = reqBody['password']
+    try:
 
-        data = {}
-        reqBody = json.loads(request.body)
-        email1 = reqBody['Email_Address']
-        print(email1)
-        password = reqBody['password']
-        try:
+        Account = CustomUser.objects.get()
+    except BaseException as e:
+        raise ValidationError({"400": f'{str(e)}'})
 
-            Account = CustomUser.objects.get()
-        except BaseException as e:
-            raise ValidationError({"400": f'{str(e)}'})
+    token = token_obtain_pair.objects.get_or_create(user=Account)[0].key
+    print(token)
+    if not check_password(password, Account.password):
+        raise ValidationError({"message": "Incorrect Login credentials"})
 
-        token = token_obtain_pair.objects.get_or_create(user=Account)[0].key
-        print(token)
-        if not check_password(password, Account.password):
-            raise ValidationError({"message": "Incorrect Login credentials"})
+    if Account:
+        if Account.is_active:
+            print(request.user)
+            login(request, Account)
+            data["message"] = "user logged in"
+            data["email_address"] = Account.email
 
-        if Account:
-            if Account.is_active:
-                print(request.user)
-                login(request, Account)
-                data["message"] = "user logged in"
-                data["email_address"] = Account.email
+            Res = {"data": data, "token": token}
 
-                Res = {"data": data, "token": token}
-
-                return Response(Res)
-
-            else:
-                raise ValidationError({"400": f'Account not active'})
+            return Response(Res)
 
         else:
-            raise ValidationError({"400": f'Account doesnt exist'})
+            raise ValidationError({"400": f'Account not active'})
+
+    else:
+        raise ValidationError({"400": f'Account doesnt exist'})
+
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
