@@ -23,10 +23,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # path to user register end points
-    path('users/', include('users.urls'),name='users'),
+    path('users/', include('users.urls'), name='users'),
 
-    path('locations/', include('attractions.urls'),name='locations'),
-    path('tour/', include('travel.urls'),name='tour'),
-    path('certificate/', include('certificate.urls'),name='certificate'),
+    path('locations/', include('attractions.urls'), name='locations'),
+    path('tour/', include('travel.urls'), name='tour'),
+    path('certificate/', include('certificate.urls'), name='certificate'),
     path('staff/', include('staff.urls'), name='staff'),
 ]

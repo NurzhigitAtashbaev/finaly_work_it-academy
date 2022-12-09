@@ -20,7 +20,8 @@ class TourSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tour
-        fields = ('id', 'category', 'types', 'title', 'image', 'price', 'start_day', 'end_day', 'likes_count')
+        fields = ('id', 'category', 'types', 'title', 'image', 'price', 'start_day', 'end_day', 'comments',
+                  'likes_count')
 
         def get(self, request):
             serializer = TourSerializer(Tour.objects.all(), many=True)
