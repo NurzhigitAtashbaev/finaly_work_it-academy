@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from .models import Tour, Category, Types, Comment, Entry, Like
-from users.serializers import UsersProfileSerializer
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -12,10 +11,7 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ('id', 'text', 'image', 'user', 'tour')
 
-<<<<<<< HEAD
 
-=======
->>>>>>> cceb02a (cleaning + staff view, serializers,urls)
 class TourSerializer(serializers.ModelSerializer):
     category = serializers.CharField(source="category.title")
     types = serializers.CharField(source="types.title")
@@ -58,10 +54,9 @@ class TourCrudSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-'''Запись на тур,Если мест нету выдаст ошибку'''
-
-
 class EntrySerializer(serializers.ModelSerializer):
+    """Запись на тур,Если мест нету выдаст ошибку"""
+
     def validate(self, attrs):
         print(attrs)
         quantity = attrs['tour'].quantity_of_seats
@@ -69,7 +64,8 @@ class EntrySerializer(serializers.ModelSerializer):
         if quantity2 >= quantity:
             raise ValidationError(
                 {
-                    'quantity_of_seats': 'Извините, Все места забронированы! Вы можете записаться на другую дату!'
+                    'quantity_of_seats': 'Извините, Все места забронированы!'
+                                         'Вы можете записаться на другую дату!'
                 }
             )
         return attrs
@@ -82,6 +78,7 @@ class EntrySerializer(serializers.ModelSerializer):
 class DeleteCommentSerializer(serializers.ModelSerializer):
     '''Удаление коментариев Под Турами.
     Коментарий может удалить только тот человек кто его написал'''
+
     class Meta:
         model = Comment
         fields = ('id', 'user')

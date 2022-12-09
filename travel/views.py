@@ -3,10 +3,14 @@ from django_filters import rest_framework as filters_
 from rest_framework import status, filters
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
-from rest_framework.generics import (ListAPIView, RetrieveAPIView, CreateAPIView, DestroyAPIView, ListCreateAPIView)
+from rest_framework.generics import (ListAPIView, RetrieveAPIView,
+                                     CreateAPIView, DestroyAPIView,
+                                     ListCreateAPIView)
+
 from .permissions import IsPostOrCommentOwner
 from .serializers import (EntrySerializer, CommentSerializer, DeleteCommentSerializer,
-                          TourSerializer, CategorySerializer, TypesSerializer, TourCrudSerializer, LikeSerializer)
+                          TourSerializer, CategorySerializer, TypesSerializer,
+                          TourCrudSerializer, LikeSerializer)
 
 from .models import Tour, Category, Types, Entry, Comment, Like
 
@@ -90,7 +94,6 @@ class DeleteCommentView(DestroyAPIView):
     serializer_class = DeleteCommentSerializer
     permission_classes = (IsPostOrCommentOwner, IsAuthenticatedOrReadOnly)
 
-<<<<<<< HEAD
 
 class LikeCreateView(ListCreateAPIView):
     """Добавление лайков"""
@@ -104,10 +107,3 @@ class LikeDeleteView(DestroyAPIView):
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
     permission_classes = (IsPostOrCommentOwner, IsAuthenticatedOrReadOnly)
-=======
-'''Для детального просмотра,Доступ только у Админа  '''
-class AdminTourDetailAPIView(ListAPIView):
-    queryset = Entry.objects.all()
-    serializer_class = AdminTourDetailSerializer
-    permission_classes = (AllowAny, IsAdminUser,)
->>>>>>> cceb02a (cleaning + staff view, serializers,urls)

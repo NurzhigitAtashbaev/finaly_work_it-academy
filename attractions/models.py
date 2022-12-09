@@ -1,7 +1,8 @@
 from django.db import models
 
-"""Модель достопримечательностей... """
+
 class Attractions(models.Model):
+    """Модель достопримечательностей """
     image = models.ImageField(blank=True, null=True, verbose_name='image', upload_to='attractions_image')
     title = models.CharField(max_length=100)
     description = models.TextField()
