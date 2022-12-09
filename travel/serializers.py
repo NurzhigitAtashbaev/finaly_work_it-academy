@@ -12,7 +12,10 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ('id', 'text', 'image', 'user', 'tour')
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> cceb02a (cleaning + staff view, serializers,urls)
 class TourSerializer(serializers.ModelSerializer):
     category = serializers.CharField(source="category.title")
     types = serializers.CharField(source="types.title")
