@@ -47,6 +47,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+
 class UsersProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser

@@ -28,10 +28,8 @@ urlpatterns = [
     path('locations/', include('attractions.urls'), name='locations'),
     path('tour/', include('travel.urls'), name='tour'),
     path('certificate/', include('certificate.urls'), name='certificate'),
-    path('users/', include('users.urls'),name='users'),
-    
-    path('locations/', include('attractions.urls'),name='locations'),
-    path('tour/', include('travel.urls'),name='tour'),
-    path('certificate/', include('certificate.urls'),name='certificate'),
-    path('staff/', include('staff.urls'), name='staff'),
+
+
 ]
+
+
