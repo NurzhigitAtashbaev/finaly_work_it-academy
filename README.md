@@ -11,13 +11,13 @@ git clone https://github.com/Doka-hub/itacademy-Nurzhigit
 python3 -m venv venv
 source venv/bin/activate\
 
-Install
+Install\
 pip install -r requitements.txt
 
-Migrate
+Migrate\
 python manage.py migrate
 
-RUN
+RUN\
 python manage.py runserver
 
 Цели проекта \
