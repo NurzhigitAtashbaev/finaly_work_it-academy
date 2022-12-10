@@ -8,7 +8,6 @@ from .views import (
     RegisterUserView, PasswordChangeAPIView,
 )
 
-
 urlpatterns = [
     path("profiles/", UserProfileListCreateView.as_view(), name="profiles"),
     path("profile/<int:pk>", UserProfileDetailView.as_view(), name="profile"),
