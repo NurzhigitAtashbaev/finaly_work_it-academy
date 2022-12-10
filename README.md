@@ -6,7 +6,7 @@ it-academy-Travel
 Сайт для туров по Кыргызстану и не только!
 
 CLoning: \
-git clonehttps://github.com/Doka-hub/itacademy-Nurzhigit 
+git clone https://github.com/Doka-hub/itacademy-Nurzhigit 
 
 python3 -m venv venv
 source venv/bin/activate\
