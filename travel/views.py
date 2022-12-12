@@ -2,7 +2,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters_
 from rest_framework import status, filters
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly, IsAdminUser
+from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated
 from rest_framework.generics import (ListAPIView, RetrieveAPIView,
                                      CreateAPIView, DestroyAPIView,
                                      ListCreateAPIView)
@@ -68,6 +68,7 @@ class EntryTourViews(CreateTourViews):
     """Запись на тур"""
     queryset = Entry.objects.all()
     serializer_class = EntrySerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class CreateCommentView(ListCreateAPIView):
