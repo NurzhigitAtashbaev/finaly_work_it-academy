@@ -1,7 +1,6 @@
 from django.test import TestCase
 from rest_framework.reverse import reverse
 from certificate.models import OrderCertificate
-from certificate.views import OrderCreateView
 from travel.models import Category, Types, Tour
 
 
@@ -10,11 +9,11 @@ class CertificateModelTest(TestCase):
         category_data = {
             "title": "Маковое поле"
         }
-        category=Category.objects.create(**category_data)
+        category = Category.objects.create(**category_data)
         types_data = {
             "title": "type"
         }
-        types=Types.objects.create(**types_data)
+        types = Types.objects.create(**types_data)
 
         tour_data = {
             "category": category,
@@ -27,7 +26,7 @@ class CertificateModelTest(TestCase):
             "quantity_of_seats": 1
 
         }
-        tour=Tour.objects.create(**tour_data)
+        tour = Tour.objects.create(**tour_data)
 
         certificate_data = {
             "tours": tour,
@@ -39,7 +38,7 @@ class CertificateModelTest(TestCase):
             "addressee": "test"
 
         }
-        certificate=OrderCertificate.objects.create(**certificate_data)
+        certificate = OrderCertificate.objects.create(**certificate_data)
 
     def test_certificate_list(self):
         url = reverse('buy-certificate')
