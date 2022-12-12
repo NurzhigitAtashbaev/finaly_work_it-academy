@@ -30,6 +30,7 @@ class MyUserManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
+
     def create_user(self, email, username, password, phone):
         return self._create_user(email, username, password, phone)
 
@@ -70,7 +71,6 @@ class CustomUser(AbstractUser):
     def email_verificate(self):
         self.is_active = True
         self.save(update_fields=['is_active'])
-
 
 
 class UserProfile(models.Model):
@@ -127,7 +127,7 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     С уважением, Команда поддержки'''
 
     try:
-        # Отправляем электронное письмо с токеном для сброса пароля пользователю
+        """Отправляем электронное письмо с токеном для сброса пароля пользователю"""
         send_mail(
             "Восстановление пароля",
             email_html_message,
@@ -135,5 +135,4 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
             (reset_password_token.user.email,)
         )
     except Exception as e:
-        # Выдаём ошибку
-        print(e)
+        return e

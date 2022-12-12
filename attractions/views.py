@@ -5,34 +5,34 @@ from .models import Attractions
 from .serializers import AttractionsSerializer, AttractionsUpdateSerializer, AttractionsDestroySerializer
 
 
-# Список Достопримечательностей
 class AttractionsListAPIView(generics.ListAPIView):
+    """Список Достопримечательностей"""
     queryset = Attractions.objects.all()
     serializer_class = AttractionsSerializer
 
 
-# Создание Достопримечательностей
 class AttractionsCreateAPIView(generics.ListCreateAPIView):
+    """Создание Достопримечательностей"""
     queryset = Attractions.objects.all()
     serializer_class = AttractionsSerializer
     permission_classes = [IsAdminUser]
 
 
-# Детальный просмотр Достопримечательностей
 class AttractionsRetrieveAPIView(generics.RetrieveAPIView):
+    """Детальный просмотр Достопримечательностей"""
     queryset = Attractions.objects.all()
     serializer_class = AttractionsSerializer
 
 
-# Изменение-Обновление Достопримечательностей
 class AttractionsUpdateAPIView(generics.UpdateAPIView):
+    """Изменение-Обновление Достопримечательностей,Доступ только у администратора"""
     queryset = Attractions.objects.all()
     serializer_class = AttractionsUpdateSerializer
     permission_classes = [IsAdminUser]
 
 
-# Удаление Достопримечательностей, удалять может только Админ
 class AttractionsDestroyAPIView(generics.DestroyAPIView):
+    """Удаление Достопримечательностей, удалять может только Администратора"""
     queryset = Attractions.objects.all()
     serializer_class = AttractionsDestroySerializer
     permission_classes = [IsAdminUser]
