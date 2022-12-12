@@ -26,4 +26,4 @@
 #         response = self.client.get(reverse("user-detail", kwargs={"pk": self.user.id}))
 #         user = CustomUser.objects.get(pk=self.user.id)
 #         serializer = UsersProfileSerializer(user)
-#
+
