@@ -9,7 +9,7 @@ it-academy-Travel
 Cloning: \
 git clone https://github.com/Doka-hub/itacademy-Nurzhigit 
 
-python3 -m venv venv
+python3 -m venv venv\
 source venv/bin/activate\
 
 Install\
