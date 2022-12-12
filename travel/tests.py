@@ -1,8 +1,10 @@
 import uuid
+from datetime import date
+
 from django.test import TestCase
 from rest_framework.test import APIClient
 from rest_framework.reverse import reverse
-from .models import Category, Types, Tour, Entry
+from .models import Category, Types, Tour, Entry, Comment
 from users.models import CustomUser
 
 
@@ -70,10 +72,22 @@ class TravelModelTest(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
-    def test_entry(self):
-        url = reverse('tour-entry')
-        response = self.client.post(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, '<form id="entry-form"')
+    # def test_entry(self):
+    #     url = reverse('tour-entry')
+    #     response = self.client.post(url)
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertContains(response, '<form id="entry-form"')
 
+    def test_search_by_date(self):
+        """Тест для поиска тура по датам """
+        url = reverse('tour-list')
+
+        client = APIClient()
+        response = client.get(url, {
+            'query': "test",
+            'start_day': date(2022, 12, 12),
+            'end_day': date(2022, 12, 13),
+        })
+
+        self.assertEqual(response.status_code, 200)
 
