@@ -10,7 +10,7 @@ Cloning: \
 git clone https://github.com/Doka-hub/itacademy-Nurzhigit 
 
 python3 -m venv venv\
-source venv/bin/activate\
+source venv/bin/activate
 
 Install\
 pip install -r requirements.txt
@@ -24,7 +24,7 @@ python manage.py runserver
 Цели проекта \
 Облегчить поиск Туров для отдыха, походов и так далее...
 Онлайн регистрация, оплата туров
-Просмотр свободных мест на тот или иной тур \
+Просмотр свободных мест на тот или иной тур 
 
 ## License
 
