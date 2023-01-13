@@ -9,17 +9,17 @@
 # Установка
 git clone https://github.com/Doka-hub/itacademy-Nurzhigit
 - Создаёте виртуальное окружение 
-1. python3 -m venv venv
-2. source venv/bin/activate
+1. `python3 -m venv venv`
+2. `source venv/bin/activate`
 
 # Установка зависимостей 
-- pip install -r requirements.txt
+- `pip install -r requirements.txt`
 
 # Проводим Миграции
-- python manage.py migrate
+- `python manage.py migrate`
 
 # Запуск Проекта
-- python manage.py runserver
+- `python manage.py runserver`
 
 # Цели проекта 
 - Облегчить поиск Туров для отдыха, походов и так далее...
