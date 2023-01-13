@@ -5,11 +5,11 @@ from .models import OrderCertificate
 from .tasks import send_feedback_email_task
 
 
-class OrderCreateView(generics.ListCreateAPIView):
+class OrderCreateView(generics.CreateAPIView):
     """Покупка сертификата"""
     queryset = OrderCertificate.objects.all()
     serializer_class = CertificateSerializer
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
     def send_email(self):
         send_feedback_email_task.apply_async(args=[
